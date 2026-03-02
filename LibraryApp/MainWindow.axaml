@@ -1,0 +1,69 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:LibraryApp.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LibraryApp.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="LibraryApp">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <TextBox Width="200" Watermark="Поиск по названию" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Width="150" Margin="10,0,0,0"
+                      SelectedItem="{Binding SelectedAuthor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LastName}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ItemsSource>
+                    <Binding Path="Authors" />
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <ComboBox Width="150" Margin="10,0,0,0"
+                      SelectedItem="{Binding SelectedGenre}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ItemsSource>
+                    <Binding Path="Genres" />
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <Button Name="AddBookButton" Content="Добавить" Margin="10,0,0,0" Click="OnAddBook" />
+            <Button Name="EditBookButton" Content="Изменить" Margin="5,0" Click="OnEditBook" />
+            <Button Name="DeleteBookButton" Content="Удалить" Click="OnDeleteBook" />
+            <Button Content="Авторы" Margin="20,0,0,0" Click="OnManageAuthors" />
+            <Button Content="Жанры" Margin="5,0" Click="OnManageGenres" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1"
+                  x:Name="BooksDataGrid"
+                  ItemsSource="{Binding Books}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  Margin="5,0,5,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Автор" Binding="{Binding Author.LastName}" />
+                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" />
+                <DataGridTextColumn Header="Год" Binding="{Binding PublishYear}" />
+                <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding QuantityInStock}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,5,0,0">
+            <TextBlock Foreground="Gray" FontSize="10" Text="{Binding BookCount, StringFormat='Книг: {0}'}" />
+            <TextBlock Foreground="Gray" FontSize="10" Text="{Binding DatabasePath}" />
+        </StackPanel>
+    </Grid>
+</Window>

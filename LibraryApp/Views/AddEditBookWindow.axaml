@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:LibraryApp.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        x:Class="LibraryApp.Views.AddEditBookWindow"
+        x:DataType="vm:AddEditBookViewModel"
+        Title="Add / Edit Book">
+    <StackPanel Margin="10">
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" />
+        <TextBox Watermark="Title" Text="{Binding Book.Title, UpdateSourceTrigger=PropertyChanged}" />
+        <ComboBox SelectedItem="{Binding Book.Author}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding LastName}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.ItemsSource>
+                <Binding Path="Authors" />
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <ComboBox SelectedItem="{Binding Book.Genre}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.ItemsSource>
+                <Binding Path="Genres" />
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <TextBox Watermark="Year" Text="{Binding Book.PublishYear}" />
+        <TextBox Watermark="ISBN" Text="{Binding Book.ISBN}" />
+        <TextBox Watermark="Quantity" Text="{Binding Book.QuantityInStock}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Save" Command="{Binding SaveCommand}" />
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="5,0,0,0" />
+        </StackPanel>
+    </StackPanel>
+</Window>
